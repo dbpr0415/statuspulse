@@ -1,6 +1,6 @@
 # =============================================================================
 # StatusPulse — Caddyfile (Reverse Proxy with automatic TLS)
-# Replace {$DOMAIN} with your actual domain (e.g., statuspulse.duckdns.org)
+# Replace {$DOMAIN} with your actual domain (e.g., statuspulsebhanu.duckdns.org)
 # =============================================================================
 
 {$DOMAIN:localhost} {
