@@ -1,0 +1,40 @@
+# =============================================================================
+# .gitignore — Files excluded from Git version control
+# =============================================================================
+
+# Environment files (contain secrets!)
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+venv/
+.venv/
+env/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Backups
+backups/
+*.sql.gz
+
+# Temporary files
+tmp/
+temp/

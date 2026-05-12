@@ -1,0 +1,89 @@
+# =============================================================================
+# StatusPulse — CI Workflow
+# Runs on every push and PR to main
+# Lint → Scan → Build → Integration Test → Upload Results
+# =============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  IMAGE_NAME: statuspulse
+
+jobs:
+  ci:
+    name: Lint, Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # ----- Checkout code ---------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ----- Lint Python with ruff -------------------------------------------
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Lint Python code with ruff
+        run: ruff check app/
+
+      # ----- Scan Dockerfile with hadolint -----------------------------------
+      - name: Lint Dockerfile with hadolint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+
+      # ----- Build Docker image ----------------------------------------------
+      - name: Build Docker image
+        run: docker build -t ${{ env.IMAGE_NAME }}:ci-${{ github.sha }} .
+
+      # ----- Start full stack ------------------------------------------------
+      - name: Create .env file
+        run: cp .env.example .env
+
+      - name: Start stack with Docker Compose
+        run: docker compose up -d --build
+
+      - name: Wait for services to be healthy
+        run: |
+          echo "Waiting for all services to become healthy..."
+          for i in $(seq 1 30); do
+            HEALTHY=$(docker compose ps --format json | grep -c '"healthy"' || true)
+            if [ "$HEALTHY" -ge 3 ]; then
+              echo "All services are healthy!"
+              break
+            fi
+            echo "Attempt $i/30 — $HEALTHY/3 services healthy..."
+            sleep 5
+          done
+          docker compose ps
+
+      # ----- Run integration tests -------------------------------------------
+      - name: Run integration tests
+        run: |
+          chmod +x tests/test_integration.sh
+          bash tests/test_integration.sh 2>&1 | tee test-results.txt
+
+      # ----- Tear down -------------------------------------------------------
+      - name: Tear down stack
+        if: always()
+        run: docker compose down -v
+
+      # ----- Upload test results ---------------------------------------------
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-test-results
+          path: test-results.txt
+          retention-days: 30

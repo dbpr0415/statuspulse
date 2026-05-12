@@ -1,0 +1,43 @@
+============================================
+TASK 1 — PROOF OF DOCKERIZATION
+Date: Tue May 12 13:58:48 IST 2026
+============================================
+
+=== 1. Docker Images (must be under 200MB) ===
+REPOSITORY                                       TAG             IMAGE ID       CREATED         SIZE
+statuspulse-app                                  latest          96e457fe3616   4 minutes ago   125MB
+
+=== 2. Docker Compose PS (all 3 healthy) ===
+NAME                IMAGE                COMMAND                  SERVICE   CREATED              STATUS                        PORTS
+statuspulse-app     statuspulse-app      "gunicorn main:app -…"   app       About a minute ago   Up About a minute (healthy)   0.0.0.0:8000->8000/tcp
+statuspulse-db      postgres:16-alpine   "docker-entrypoint.s…"   db        About a minute ago   Up About a minute (healthy)   0.0.0.0:5432->5432/tcp
+statuspulse-redis   redis:7-alpine       "docker-entrypoint.s…"   redis     About a minute ago   Up About a minute (healthy)   0.0.0.0:6379->6379/tcp
+
+=== 3. curl localhost:8000/health (all checks healthy) ===
+{
+    "status": "healthy",
+    "checks": {
+        "api": "healthy",
+        "database": "healthy",
+        "redis": "healthy"
+    },
+    "timestamp": "2026-05-12T08:28:49.332813+00:00"
+}
+
+=== 4. make test output ===
+=== StatusPulse Health Check ===
+{
+    "status": "healthy",
+    "checks": {
+        "api": "healthy",
+        "database": "healthy",
+        "redis": "healthy"
+    },
+    "timestamp": "2026-05-12T08:28:49.417023+00:00"
+}
+
+✅ Health check PASSED
+
+============================================
+ALL TASK 1 PROOFS CAPTURED
+============================================

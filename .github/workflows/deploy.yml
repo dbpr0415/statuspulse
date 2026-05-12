@@ -1,0 +1,179 @@
+# =============================================================================
+# StatusPulse — Deploy Workflow
+# Runs on push to main (after CI passes)
+# Build → Push to ghcr.io → Deploy → Health Check → Rollback if needed
+# =============================================================================
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/statuspulse
+
+jobs:
+  # Wait for CI to pass first
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    name: Build, Push & Deploy
+    runs-on: ubuntu-latest
+    needs: ci
+    permissions:
+      contents: read
+      packages: write
+      issues: write
+
+    steps:
+      # ----- Checkout --------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ----- Login to GitHub Container Registry ------------------------------
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # ----- Build and push image --------------------------------------------
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      # ----- Deploy to server via SSH ----------------------------------------
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          script: |
+            cd ~/statuspulse
+            export IMAGE_TAG=${{ github.sha }}
+            export REGISTRY=${{ env.REGISTRY }}
+            export IMAGE_NAME=${{ env.IMAGE_NAME }}
+            bash scripts/deploy.sh
+
+      # ----- Post-deployment health check ------------------------------------
+      - name: Post-deployment health check
+        id: health_check
+        run: |
+          echo "Waiting 15 seconds for deployment to stabilise..."
+          sleep 15
+          for i in $(seq 1 10); do
+            HTTP_CODE=$(curl -sf -o /dev/null -w "%{http_code}" \
+              "https://${{ secrets.SERVER_DOMAIN }}/health" 2>/dev/null || echo "000")
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "✅ Health check passed!"
+              echo "status=success" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+            echo "Attempt $i/10 — HTTP $HTTP_CODE, retrying in 10s..."
+            sleep 10
+          done
+          echo "❌ Health check failed after 10 attempts"
+          echo "status=failed" >> $GITHUB_OUTPUT
+          exit 1
+
+      # ----- Rollback on failure ---------------------------------------------
+      - name: Rollback on health check failure
+        if: failure() && steps.health_check.outputs.status == 'failed'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_SSH_PORT }}
+          script: |
+            cd ~/statuspulse
+            echo "🔄 Rolling back to previous image..."
+            docker compose pull
+            docker compose up -d --force-recreate
+            echo "✅ Rollback complete"
+
+      # ----- Notify success ---------------------------------------------------
+      - name: Notify success via GitHub Issue comment
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'deployment',
+              state: 'open',
+              per_page: 1
+            });
+
+            const body = `## ✅ Deployment Successful\n\n` +
+              `- **Commit:** \`${context.sha.substring(0, 7)}\`\n` +
+              `- **Image:** \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${context.sha}\`\n` +
+              `- **Time:** ${new Date().toISOString()}\n` +
+              `- **Health Check:** Passed ✅\n` +
+              `- **Run:** [View Workflow](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
+
+            if (issues.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues[0].number,
+                body: body
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚀 Deployment Log',
+                labels: ['deployment'],
+                body: body
+              });
+            }
+
+      # ----- Notify failure ---------------------------------------------------
+      - name: Notify failure via GitHub Issue comment
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'deployment',
+              state: 'open',
+              per_page: 1
+            });
+
+            const body = `## ❌ Deployment Failed\n\n` +
+              `- **Commit:** \`${context.sha.substring(0, 7)}\`\n` +
+              `- **Time:** ${new Date().toISOString()}\n` +
+              `- **Action:** Automatic rollback triggered\n` +
+              `- **Run:** [View Workflow](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`;
+
+            if (issues.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issues[0].number,
+                body: body
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚀 Deployment Log',
+                labels: ['deployment'],
+                body: body
+              });
+            }

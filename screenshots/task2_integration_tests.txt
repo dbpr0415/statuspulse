@@ -1,0 +1,28 @@
+
+=========================================
+  StatusPulse Integration Tests
+  Target: http://localhost:8000
+=========================================
+
+[1;33m⏳ Waiting for StatusPulse to be ready...[0m
+[0;32m✅ Service is ready![0m
+--- Test 1: GET /health ---
+[0;32m✅ PASS[0m — GET /health — 200 with correct JSON shape
+--- Test 2: GET / ---
+[0;32m✅ PASS[0m — GET / — 200 with correct JSON shape
+--- Test 3: POST /services ---
+[0;32m✅ PASS[0m — POST /services — 200 with correct JSON shape
+--- Test 4: POST /services (duplicate) ---
+[0;32m✅ PASS[0m — POST /services (duplicate) — 409 Conflict
+--- Test 5: GET /services ---
+[0;32m✅ PASS[0m — GET /services — 200 with correct JSON array
+--- Test 6: POST /incidents ---
+[0;32m✅ PASS[0m — POST /incidents — 200 with correct JSON shape
+--- Test 7: GET /incidents ---
+[0;32m✅ PASS[0m — GET /incidents — 200 with correct JSON array
+
+=========================================
+  Results: 7 passed, 0 failed (7 total)
+=========================================
+
+[0;32m✅ ALL INTEGRATION TESTS PASSED[0m

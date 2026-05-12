@@ -1,0 +1,68 @@
+# =============================================================================
+# .dockerignore — Files excluded from Docker build context
+# =============================================================================
+
+# Git
+.git
+.gitignore
+
+# Environment files (contain secrets)
+.env
+.env.*
+!.env.example
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.eggs
+
+# Virtual environments
+venv
+.venv
+env
+
+# IDE / Editor
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Docker
+docker-compose.yml
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# CI/CD
+.github
+
+# Documentation
+*.md
+LICENSE
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Tests
+tests/
+
+# Scripts
+scripts/
+
+# Terraform / Ansible
+terraform/
+ansible/
+
+# Screenshots
+screenshots/
+
+# Caddy / Nginx config (not needed inside the app image)
+caddy/
+nginx/
+
+# Makefile
+Makefile
