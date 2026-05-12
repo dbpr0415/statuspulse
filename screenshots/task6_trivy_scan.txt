@@ -1,0 +1,144 @@
+2026-05-12T16:00:47+05:30	INFO	[vulndb] Need to update DB
+2026-05-12T16:00:47+05:30	INFO	[vulndb] Downloading vulnerability DB...
+2026-05-12T16:00:47+05:30	INFO	[vulndb] Downloading artifact...	repo="mirror.gcr.io/aquasec/trivy-db:2"
+591.20 KiB / 92.70 MiB [>________________________________________] 0.62% ? p/s ?3.36 MiB / 92.70 MiB [->_________________________________________] 3.62% ? p/s ?7.09 MiB / 92.70 MiB [--->_______________________________________] 7.65% ? p/s ?12.17 MiB / 92.70 MiB [--->________________________] 13.13% 19.32 MiB p/s ETA 4s18.25 MiB / 92.70 MiB [----->______________________] 19.68% 19.32 MiB p/s ETA 3s24.40 MiB / 92.70 MiB [------->____________________] 26.33% 19.32 MiB p/s ETA 3s30.58 MiB / 92.70 MiB [--------->__________________] 32.99% 20.06 MiB p/s ETA 3s36.81 MiB / 92.70 MiB [----------->________________] 39.71% 20.06 MiB p/s ETA 2s43.03 MiB / 92.70 MiB [------------>_______________] 46.41% 20.06 MiB p/s ETA 2s49.26 MiB / 92.70 MiB [-------------->_____________] 53.14% 20.77 MiB p/s ETA 2s55.42 MiB / 92.70 MiB [---------------->___________] 59.79% 20.77 MiB p/s ETA 1s61.78 MiB / 92.70 MiB [------------------>_________] 66.65% 20.77 MiB p/s ETA 1s68.08 MiB / 92.70 MiB [-------------------->_______] 73.44% 21.45 MiB p/s ETA 1s74.38 MiB / 92.70 MiB [---------------------->_____] 80.24% 21.45 MiB p/s ETA 0s80.75 MiB / 92.70 MiB [------------------------>___] 87.11% 21.45 MiB p/s ETA 0s85.78 MiB / 92.70 MiB [------------------------->__] 92.54% 21.97 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 21.97 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 21.97 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 21.30 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 21.30 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 21.30 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 19.93 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 19.93 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 19.93 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 18.64 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 18.64 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 18.64 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 17.44 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 17.44 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 17.44 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 16.31 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 16.31 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 16.31 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 15.26 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 15.26 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-------------------------->] 100.00% 15.26 MiB p/s ETA 0s92.70 MiB / 92.70 MiB [-----------------------------] 100.00% 13.20 MiB p/s 7.2s2026-05-12T16:00:55+05:30	INFO	[vulndb] Artifact successfully downloaded	repo="mirror.gcr.io/aquasec/trivy-db:2"
+2026-05-12T16:00:55+05:30	INFO	[vuln] Vulnerability scanning is enabled
+2026-05-12T16:00:55+05:30	INFO	[secret] Secret scanning is enabled
+2026-05-12T16:00:55+05:30	INFO	[secret] If your scanning is slow, please try '--scanners vuln' to disable secret scanning
+2026-05-12T16:00:55+05:30	INFO	[secret] Please see https://trivy.dev/docs/v0.70/guide/scanner/secret#recommendation for faster secret detection
+2026-05-12T16:00:57+05:30	INFO	[python] Licenses acquired from one or more METADATA files may be subject to additional terms. Use `--debug` flag to see all affected packages.
+2026-05-12T16:00:57+05:30	INFO	Detected OS	family="alpine" version="3.23.4"
+2026-05-12T16:00:57+05:30	INFO	[alpine] Detecting vulnerabilities...	os_version="3.23" repository="3.23" pkg_num=39
+2026-05-12T16:00:57+05:30	INFO	Number of language-specific files	num=1
+2026-05-12T16:00:57+05:30	INFO	[python-pkg] Detecting vulnerabilities...
+2026-05-12T16:00:57+05:30	INFO	Table result includes only package filenames. Use '--format json' option to get the full path to the package file.
+
+Report Summary
+
+┌──────────────────────────────────────────────────────────────────────────────────┬────────────┬─────────────────┬─────────┐
+│                                      Target                                      │    Type    │ Vulnerabilities │ Secrets │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ statuspulse-app:latest (alpine 3.23.4)                                           │   alpine   │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/annotated_types-0.7.0.dist-info/METADATA  │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/anyio-3.7.1.dist-info/METADATA            │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/click-8.3.3.dist-info/METADATA            │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/fastapi-0.104.1.dist-info/METADATA        │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/gunicorn-21.2.0.dist-info/METADATA        │ python-pkg │        2        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/h11-0.16.0.dist-info/METADATA             │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/idna-3.14.dist-info/METADATA              │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/packaging-26.2.dist-info/METADATA         │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/pip-24.0.dist-info/METADATA               │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/psycopg2_binary-2.9.9.dist-info/METADATA  │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/pydantic-2.5.2.dist-info/METADATA         │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/pydantic_core-2.14.5.dist-info/METADATA   │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/redis-5.0.1.dist-info/METADATA            │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools-79.0.1.dist-info/METADATA      │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/autocommand-2.2.2.dis- │ python-pkg │        0        │    -    │
+│ t-info/METADATA                                                                  │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/backports.tarfile-1.2- │ python-pkg │        0        │    -    │
+│ .0.dist-info/METADATA                                                            │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/importlib_metadata-8.- │ python-pkg │        0        │    -    │
+│ 0.0.dist-info/METADATA                                                           │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/inflect-7.3.1.dist-in- │ python-pkg │        0        │    -    │
+│ fo/METADATA                                                                      │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/jaraco.collections-5.- │ python-pkg │        0        │    -    │
+│ 1.0.dist-info/METADATA                                                           │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/jaraco.context-5.3.0.- │ python-pkg │        1        │    -    │
+│ dist-info/METADATA                                                               │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/jaraco.functools-4.0.- │ python-pkg │        0        │    -    │
+│ 1.dist-info/METADATA                                                             │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/jaraco.text-3.12.1.di- │ python-pkg │        0        │    -    │
+│ st-info/METADATA                                                                 │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/more_itertools-10.3.0- │ python-pkg │        0        │    -    │
+│ .dist-info/METADATA                                                              │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/packaging-24.2.dist-i- │ python-pkg │        0        │    -    │
+│ nfo/METADATA                                                                     │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/platformdirs-4.2.2.di- │ python-pkg │        0        │    -    │
+│ st-info/METADATA                                                                 │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/tomli-2.0.1.dist-info- │ python-pkg │        0        │    -    │
+│ /METADATA                                                                        │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/typeguard-4.3.0.dist-- │ python-pkg │        0        │    -    │
+│ info/METADATA                                                                    │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/typing_extensions-4.1- │ python-pkg │        0        │    -    │
+│ 2.2.dist-info/METADATA                                                           │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/wheel-0.45.1.dist-inf- │ python-pkg │        1        │    -    │
+│ o/METADATA                                                                       │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/setuptools/_vendor/zipp-3.19.2.dist-info- │ python-pkg │        0        │    -    │
+│ /METADATA                                                                        │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/sniffio-1.3.1.dist-info/METADATA          │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/starlette-0.27.0.dist-info/METADATA       │ python-pkg │        1        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/typing_extensions-4.15.0.dist-info/METAD- │ python-pkg │        0        │    -    │
+│ ATA                                                                              │            │                 │         │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/uvicorn-0.24.0.dist-info/METADATA         │ python-pkg │        0        │    -    │
+├──────────────────────────────────────────────────────────────────────────────────┼────────────┼─────────────────┼─────────┤
+│ usr/local/lib/python3.11/site-packages/wheel-0.45.1.dist-info/METADATA           │ python-pkg │        1        │    -    │
+└──────────────────────────────────────────────────────────────────────────────────┴────────────┴─────────────────┴─────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+Python (python-pkg)
+===================
+Total: 6 (HIGH: 6, CRITICAL: 0)
+
+┌───────────────────────────┬────────────────┬──────────┬────────┬───────────────────┬───────────────┬──────────────────────────────────────────────────────────────┐
+│          Library          │ Vulnerability  │ Severity │ Status │ Installed Version │ Fixed Version │                            Title                             │
+├───────────────────────────┼────────────────┼──────────┼────────┼───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ gunicorn (METADATA)       │ CVE-2024-1135  │ HIGH     │ fixed  │ 21.2.0            │ 22.0.0        │ python-gunicorn: HTTP Request Smuggling due to improper      │
+│                           │                │          │        │                   │               │ validation of Transfer-Encoding headers                      │
+│                           │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-1135                    │
+│                           ├────────────────┤          │        │                   │               ├──────────────────────────────────────────────────────────────┤
+│                           │ CVE-2024-6827  │          │        │                   │               │ gunicorn: HTTP Request Smuggling in benoitc/gunicorn         │
+│                           │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-6827                    │
+├───────────────────────────┼────────────────┤          │        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ jaraco.context (METADATA) │ CVE-2026-23949 │          │        │ 5.3.0             │ 6.1.0         │ jaraco.context: jaraco.context: Path traversal via malicious │
+│                           │                │          │        │                   │               │ tar archives                                                 │
+│                           │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-23949                   │
+├───────────────────────────┼────────────────┤          │        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ starlette (METADATA)      │ CVE-2024-47874 │          │        │ 0.27.0            │ 0.40.0        │ starlette: Starlette Denial of service (DoS) via             │
+│                           │                │          │        │                   │               │ multipart/form-data                                          │
+│                           │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2024-47874                   │
+├───────────────────────────┼────────────────┤          │        ├───────────────────┼───────────────┼──────────────────────────────────────────────────────────────┤
+│ wheel (METADATA)          │ CVE-2026-24049 │          │        │ 0.45.1            │ 0.46.2        │ wheel: wheel: Privilege Escalation or Arbitrary Code         │
+│                           │                │          │        │                   │               │ Execution via malicious wheel file...                        │
+│                           │                │          │        │                   │               │ https://avd.aquasec.com/nvd/cve-2026-24049                   │
+│                           │                │          │        │                   │               │                                                              │
+│                           │                │          │        │                   │               │                                                              │
+│                           │                │          │        │                   │               │                                                              │
+│                           │                │          │        │                   │               │                                                              │
+└───────────────────────────┴────────────────┴──────────┴────────┴───────────────────┴───────────────┴──────────────────────────────────────────────────────────────┘
