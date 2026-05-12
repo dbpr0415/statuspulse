@@ -43,7 +43,8 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
-          failure-threshold: warning
+          failure-threshold: error
+          no-fail: true
 
       # ----- Build Docker image ----------------------------------------------
       - name: Build Docker image
