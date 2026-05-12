@@ -1,0 +1,137 @@
+
+PLAY [Configure StatusPulse Production Server] *********************************
+
+TASK [Gathering Facts] *********************************************************
+[WARNING]: Host '13.201.16.35' is using the discovered Python interpreter at '/usr/bin/python3.12', but future installation of another Python interpreter could cause a different interpreter to be discovered. See https://docs.ansible.com/ansible-core/2.20/reference_appendices/interpreter_discovery.html for more information.
+ok: [13.201.16.35]
+
+TASK [Update apt cache] ********************************************************
+changed: [13.201.16.35]
+
+TASK [Install required packages] ***********************************************
+ok: [13.201.16.35]
+
+TASK [Enable automatic security updates] ***************************************
+ok: [13.201.16.35]
+
+TASK [Create deploy user] ******************************************************
+changed: [13.201.16.35]
+
+TASK [Add SSH authorized key for deploy user] **********************************
+[ERROR]: Task failed: Finalization of task args for 'ansible.posix.authorized_key' failed: Error while resolving value for 'key': The lookup plugin 'file' failed: Unable to access the file '~/.ssh/id_rsa.pub': File not found. Use -vvvvv to see paths searched.
+
+Task failed.
+Origin: /Users/bhanuprakashdevireddygari/Desktop/wexa ai/statuspulse/ansible/playbook.yml:52:7
+
+50         state: present
+51
+52     - name: Add SSH authorized key for deploy user
+         ^ column 7
+
+<<< caused by >>>
+
+Finalization of task args for 'ansible.posix.authorized_key' failed.
+Origin: /Users/bhanuprakashdevireddygari/Desktop/wexa ai/statuspulse/ansible/playbook.yml:53:7
+
+51
+52     - name: Add SSH authorized key for deploy user
+53       authorized_key:
+         ^ column 7
+
+<<< caused by >>>
+
+Error while resolving value for 'key': The lookup plugin 'file' failed: Unable to access the file '~/.ssh/id_rsa.pub': File not found. Use -vvvvv to see paths searched.
+Origin: /Users/bhanuprakashdevireddygari/Desktop/wexa ai/statuspulse/ansible/playbook.yml:55:14
+
+53       authorized_key:
+54         user: "{{ deploy_user }}"
+55         key: "{{ lookup('file', ssh_public_key_path) }}"
+                ^ column 14
+
+fatal: [13.201.16.35]: FAILED! => {"changed": false, "msg": "Task failed: Finalization of task args for 'ansible.posix.authorized_key' failed: Error while resolving value for 'key': The lookup plugin 'file' failed: Unable to access the file '~/.ssh/id_rsa.pub': File not found. Use -vvvvv to see paths searched."}
+...ignoring
+
+TASK [Harden SSH configuration] ************************************************
+ok: [13.201.16.35] => (item={'regexp': '^#?Port ', 'line': 'Port 22'})
+ok: [13.201.16.35] => (item={'regexp': '^#?PermitRootLogin', 'line': 'PermitRootLogin no'})
+ok: [13.201.16.35] => (item={'regexp': '^#?PasswordAuthentication', 'line': 'PasswordAuthentication no'})
+ok: [13.201.16.35] => (item={'regexp': '^#?PubkeyAuthentication', 'line': 'PubkeyAuthentication yes'})
+ok: [13.201.16.35] => (item={'regexp': '^#?X11Forwarding', 'line': 'X11Forwarding no'})
+ok: [13.201.16.35] => (item={'regexp': '^#?MaxAuthTries', 'line': 'MaxAuthTries 3'})
+
+TASK [Set UFW default deny incoming] *******************************************
+ok: [13.201.16.35]
+
+TASK [Set UFW default allow outgoing] ******************************************
+ok: [13.201.16.35]
+
+TASK [Allow SSH port] **********************************************************
+ok: [13.201.16.35]
+
+TASK [Allow HTTP] **************************************************************
+ok: [13.201.16.35]
+
+TASK [Allow HTTPS] *************************************************************
+ok: [13.201.16.35]
+
+TASK [Enable UFW] **************************************************************
+ok: [13.201.16.35]
+
+TASK [Check if swap file exists] ***********************************************
+ok: [13.201.16.35]
+
+TASK [Create swap file] ********************************************************
+skipping: [13.201.16.35]
+
+TASK [Set swap permissions] ****************************************************
+skipping: [13.201.16.35]
+
+TASK [Make swap] ***************************************************************
+skipping: [13.201.16.35]
+
+TASK [Enable swap] *************************************************************
+skipping: [13.201.16.35]
+
+TASK [Add swap to fstab] *******************************************************
+ok: [13.201.16.35]
+
+TASK [Check if Docker is installed] ********************************************
+ok: [13.201.16.35]
+
+TASK [Add Docker GPG key] ******************************************************
+skipping: [13.201.16.35]
+
+TASK [Add Docker repository] ***************************************************
+skipping: [13.201.16.35]
+
+TASK [Install Docker] **********************************************************
+skipping: [13.201.16.35]
+
+TASK [Add deploy user to docker group] *****************************************
+changed: [13.201.16.35]
+
+TASK [Enable and start Docker] *************************************************
+ok: [13.201.16.35]
+
+TASK [Create project directory] ************************************************
+ok: [13.201.16.35]
+
+TASK [Copy scripts] ************************************************************
+ok: [13.201.16.35] => (item=deploy.sh)
+ok: [13.201.16.35] => (item=backup.sh)
+ok: [13.201.16.35] => (item=health-monitor.sh)
+
+TASK [Health monitor cron (every 5 min)] ***************************************
+ok: [13.201.16.35]
+
+TASK [Daily backup cron (2 AM)] ************************************************
+ok: [13.201.16.35]
+
+TASK [Create log files] ********************************************************
+changed: [13.201.16.35] => (item=/var/log/statuspulse-monitor.log)
+changed: [13.201.16.35] => (item=/var/log/statuspulse-deploy.log)
+changed: [13.201.16.35] => (item=/var/log/statuspulse-backup.log)
+
+PLAY RECAP *********************************************************************
+13.201.16.35               : ok=23   changed=4    unreachable=0    failed=0    skipped=7    rescued=0    ignored=1   
+
