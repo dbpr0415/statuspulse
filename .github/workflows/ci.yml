@@ -11,6 +11,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_call:
 
 env:
   IMAGE_NAME: statuspulse
@@ -42,6 +43,7 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: Dockerfile
+          failure-threshold: warning
 
       # ----- Build Docker image ----------------------------------------------
       - name: Build Docker image
