@@ -59,7 +59,7 @@ graph TB
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/statuspulse.git
+git clone https://github.com/dbpr0415/statuspulse.git
 cd statuspulse
 
 # 2. Create environment file
@@ -116,10 +116,10 @@ ansible-playbook -i inventory.ini playbook.yml
 ### 4. Manual Deployment (Alternative)
 ```bash
 # SSH into your server
-ssh deploy@your-server -p 2222
+ssh -i your-key.pem ubuntu@your-server-ip
 
 # Clone and start
-git clone https://github.com/YOUR_USERNAME/statuspulse.git
+git clone https://github.com/dbpr0415/statuspulse.git
 cd statuspulse
 cp .env.example .env
 nano .env  # Set real passwords
@@ -153,18 +153,18 @@ Set in repo → Settings → Secrets → Actions:
 | `SERVER_HOST` | Your server IP |
 | `SERVER_USER` | `deploy` |
 | `SERVER_SSH_KEY` | Private SSH key |
-| `SERVER_SSH_PORT` | `2222` |
-| `SERVER_DOMAIN` | `your-name.duckdns.org` |
+| `SERVER_SSH_PORT` | `22` |
+| `SERVER_DOMAIN` | `statuspulsebhanu.duckdns.org` |
 
 ---
 
 ## Monitoring & Alerting
 
 ### Uptime Kuma
-- **URL:** `https://status.your-domain.duckdns.org`
-- **Monitors:** StatusPulse API, PostgreSQL, Redis, TLS certificate
+- **URL:** `http://13.201.16.35:3001/status/statuspulse`
+- **Monitors:** StatusPulse API, PostgreSQL, Redis, Swagger Docs
 - **Check interval:** 60 seconds
-- **Alerts:** 2 channels configured (Discord + Email)
+- **Alerts:** 2 channels configured (Webhook + Ntfy)
 
 ### Health Monitor Script
 Runs every 5 minutes via cron:

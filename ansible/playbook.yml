@@ -158,6 +158,80 @@
         owner: "{{ deploy_user }}"
         group: "{{ deploy_user }}"
 
+    - name: Clone StatusPulse repository
+      git:
+        repo: "https://github.com/dbpr0415/statuspulse.git"
+        dest: "/home/{{ deploy_user }}/statuspulse"
+        version: main
+        force: yes
+      become_user: "{{ deploy_user }}"
+
+    - name: Create .env file for Docker Compose
+      copy:
+        dest: "/home/{{ deploy_user }}/statuspulse/.env"
+        content: |
+          DB_NAME={{ db_name }}
+          DB_USER={{ db_user }}
+          DB_PASSWORD={{ db_password }}
+          DB_HOST=db
+          DB_PORT=5432
+          REDIS_HOST=redis
+          REDIS_PORT=6379
+          REDIS_PASSWORD={{ redis_password }}
+          APP_PORT={{ app_port }}
+          APP_ENV=production
+        owner: "{{ deploy_user }}"
+        mode: "0600"
+
+    - name: Deploy StatusPulse stack via Docker Compose
+      command: docker compose up -d --build
+      args:
+        chdir: "/home/{{ deploy_user }}/statuspulse"
+      become_user: "{{ deploy_user }}"
+      register: compose_result
+      changed_when: "'Started' in compose_result.stdout or 'Created' in compose_result.stdout"
+
+    # === CADDY REVERSE PROXY ===
+    - name: Install Caddy
+      apt:
+        name: caddy
+        state: present
+
+    - name: Configure Caddy for HTTPS reverse proxy
+      copy:
+        dest: /etc/caddy/Caddyfile
+        content: |
+          {{ domain }} {
+              reverse_proxy localhost:{{ app_port }}
+
+              header {
+                  X-Content-Type-Options "nosniff"
+                  X-Frame-Options "DENY"
+                  X-XSS-Protection "1; mode=block"
+                  Strict-Transport-Security "max-age=31536000; includeSubDomains"
+                  Referrer-Policy "strict-origin-when-cross-origin"
+                  -Server
+              }
+          }
+        mode: "0644"
+      notify: Reload Caddy
+
+    # === UPTIME KUMA ===
+    - name: Check if Uptime Kuma is running
+      command: docker ps --filter name=uptime-kuma --format '{{ "{{" }}.Names{{ "}}" }}'
+      register: kuma_running
+      changed_when: false
+
+    - name: Deploy Uptime Kuma
+      command: >
+        docker run -d
+        --name uptime-kuma
+        --restart unless-stopped
+        -p 3001:3001
+        -v uptime-kuma-data:/app/data
+        louislam/uptime-kuma:latest
+      when: "'uptime-kuma' not in kuma_running.stdout"
+
     - name: Copy scripts
       copy:
         src: "../scripts/{{ item }}"
@@ -166,12 +240,20 @@
         mode: "0755"
       loop: [deploy.sh, backup.sh, health-monitor.sh]
 
+    # === BACKUP DIRECTORY ===
+    - name: Create backup directory
+      file:
+        path: "/home/{{ deploy_user }}/backups"
+        state: directory
+        owner: "{{ deploy_user }}"
+        mode: "0755"
+
     # === CRON JOBS ===
     - name: Health monitor cron (every 5 min)
       cron:
         name: "StatusPulse health monitor"
         minute: "*/5"
-        job: "/home/{{ deploy_user }}/statuspulse/scripts/health-monitor.sh"
+        job: "/home/{{ deploy_user }}/statuspulse/scripts/health-monitor.sh >> /var/log/statuspulse-monitor.log 2>&1"
         user: "{{ deploy_user }}"
 
     - name: Daily backup cron (2 AM)
@@ -179,14 +261,15 @@
         name: "StatusPulse database backup"
         hour: "2"
         minute: "0"
-        job: "/home/{{ deploy_user }}/statuspulse/scripts/backup.sh"
+        job: "/home/{{ deploy_user }}/statuspulse/scripts/backup.sh >> /var/log/statuspulse-backup.log 2>&1"
         user: "{{ deploy_user }}"
 
     # === LOG FILES ===
     - name: Create log files
-      file:
-        path: "{{ item }}"
-        state: touch
+      copy:
+        dest: "{{ item }}"
+        content: ""
+        force: no
         owner: "{{ deploy_user }}"
         mode: "0644"
       loop:
@@ -197,3 +280,7 @@
   handlers:
     - name: Restart SSH
       systemd: { name: sshd, state: restarted }
+
+    - name: Reload Caddy
+      systemd: { name: caddy, state: reloaded }
+
