@@ -1,0 +1,46 @@
+📸 PROOF: UFW Firewall
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), deny (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW IN    Anywhere                  
+80/tcp                     ALLOW IN    Anywhere                  
+443/tcp                    ALLOW IN    Anywhere                  
+2222/tcp                   ALLOW IN    Anywhere                  
+3001/tcp                   ALLOW IN    Anywhere                  
+22/tcp (v6)                ALLOW IN    Anywhere (v6)             
+80/tcp (v6)                ALLOW IN    Anywhere (v6)             
+443/tcp (v6)               ALLOW IN    Anywhere (v6)             
+2222/tcp (v6)              ALLOW IN    Anywhere (v6)             
+3001/tcp (v6)              ALLOW IN    Anywhere (v6)             
+
+
+📸 PROOF: SSH Hardening
+PermitRootLogin no
+PasswordAuthentication no
+
+📸 PROOF: Docker Containers
+NAMES               STATUS                       PORTS
+uptime-kuma         Up About an hour (healthy)   0.0.0.0:3001->3001/tcp, [::]:3001->3001/tcp
+statuspulse-app     Up 46 minutes (healthy)      0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+statuspulse-db      Up 2 hours (healthy)         0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+statuspulse-redis   Up 2 hours (healthy)         0.0.0.0:6379->6379/tcp, [::]:6379->6379/tcp
+
+📸 PROOF: Crontab
+*/5 * * * * /usr/local/bin/health-monitor.sh >> /var/log/statuspulse-monitor.log 2>&1
+0 2 * * * /usr/local/bin/backup.sh >> /var/log/statuspulse-backup.log 2>&1
+
+📸 PROOF: Monitor Log (last 10 lines)
+[2026-05-12 13:35:01] 5️⃣  Checking TLS certificate...
+[2026-05-12 13:35:01] 5️⃣  Checking TLS certificate...
+[2026-05-12 13:35:01]    ℹ️  Skipping TLS check (localhost or openssl not available)
+[2026-05-12 13:35:01]    ℹ️  Skipping TLS check (localhost or openssl not available)
+[2026-05-12 13:35:01] 
+[2026-05-12 13:35:01] 
+[2026-05-12 13:35:01] ⚠️  1 alert(s) triggered
+[2026-05-12 13:35:01] ⚠️  1 alert(s) triggered
+[2026-05-12 13:35:01] =========================================
+[2026-05-12 13:35:01] =========================================

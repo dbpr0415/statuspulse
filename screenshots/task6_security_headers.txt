@@ -1,0 +1,14 @@
+📸 PROOF: Security Headers
+HTTP/2 405 
+allow: GET
+alt-svc: h3=":443"; ma=2592000
+content-type: application/json
+date: Tue, 12 May 2026 13:39:08 GMT
+referrer-policy: strict-origin-when-cross-origin
+strict-transport-security: max-age=31536000; includeSubDomains
+via: 1.1 Caddy
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 1; mode=block
+content-length: 31
+

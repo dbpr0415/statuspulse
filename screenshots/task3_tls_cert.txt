@@ -1,0 +1,25 @@
+📸 PROOF: TLS Certificate
+* (304) (OUT), TLS handshake, Client hello (1):
+* (304) (IN), TLS handshake, Server hello (2):
+* (304) (IN), TLS handshake, Unknown (8):
+* (304) (IN), TLS handshake, Certificate (11):
+* (304) (IN), TLS handshake, CERT verify (15):
+* (304) (IN), TLS handshake, Finished (20):
+* (304) (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / AEAD-CHACHA20-POLY1305-SHA256 / [blank] / UNDEF
+*  subject: CN=statuspulsebhanu.duckdns.org
+*  expire date: Aug 10 11:07:41 2026 GMT
+*  subjectAltName: host "statuspulsebhanu.duckdns.org" matched cert's "statuspulsebhanu.duckdns.org"
+*  issuer: C=US; O=Let's Encrypt; CN=E7
+*  SSL certificate verify ok.
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://statuspulsebhanu.duckdns.org/health
+* [HTTP/2] [1] [:method: HEAD]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: statuspulsebhanu.duckdns.org]
+* [HTTP/2] [1] [:path: /health]
+* [HTTP/2] [1] [user-agent: curl/8.7.1]
+* [HTTP/2] [1] [accept: */*]
+> HEAD /health HTTP/2
+< HTTP/2 405 
+HTTP/2 405 
